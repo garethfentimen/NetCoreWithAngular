@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div ng-app="myApp">
+
+    <form name="myForm" ng-controller="myController" ng-submit="submit()">
+        <div>
+            <label for="mytext">Type more than 15 characters for a server error</label>
+            <input id="mytext" type="text" ng-model="text" required ng-minlength="2" ng-maxlength="20" name="text" />
+        </div>
+        <div>
+            <label for="mynumber">Range for the serverside validation is 1 - 100</label>
+            <input id="mynumber" type="number" ng-model="number" name="number" />
+        </div>
+        <div>
+            <input type="submit" id="submit" value="Submit" ng-disabled="!myForm.$valid" />
+        </div>
+        <div class="alert-success" ng-show="result">
+            <div>
+                <span class="text-success">{{result}}</span>
+            </div>
+        </div>
+        <div class="alert-danger" ng-show="showErrors">
+            <div>
+                <span>There were some serverside validation errors</span>
+            </div>
+
+            <ul ng-repeat="errorObj in errors">
+                <li>{{errorObj.key}} : {{errorObj.error}}</li>
+            </ul>
+        </div>
+    </form>
+
+</div>
