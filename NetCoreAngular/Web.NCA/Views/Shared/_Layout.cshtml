@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Web.NCA</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/all.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -44,15 +44,12 @@
     </div>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
     <environment names="Development">
+        <script src="~/js/dep.js" asp-append-version="true"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        @*<script src=""
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery">
-    </script>*@
+        <script src="~/js/dep.js" asp-append-version="true"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
     </environment>
 

@@ -2,26 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div ng-app="myApp">
+<div ng-app="myApp" class="container">
 
-    <form name="myForm" ng-controller="myController" ng-submit="submit()">
-        <div>
+    <form name="myForm" ng-controller="myController" ng-submit="submit()" novalidate>
+        <div class="form-group">
             <label for="mytext">Type more than 15 characters for a server error</label>
-            <input id="mytext" type="text" ng-model="text" required ng-minlength="2" ng-maxlength="20" name="text" />
+            <input class="form-control" id="mytext" type="text" ng-model="text" required ng-minlength="2" ng-maxlength="20" name="text" />
+            <div ng-show="myForm.text.$error.required && !myForm.text.$pristine" class="alert-danger">Text is required.</div>
+            <div ng-show="myForm.text.$error.minlength" class="alert-warning">Text is too short.</div>
+            <div ng-show="myForm.text.$error.maxlength" class="alert-warning">Text is too long</div>
         </div>
-        <div>
+        <div class="form-group">
+            <label for="startDate">Start</label>
+            
+            <input class="form-control" id="startDate" type="datetime" ng-focus="showStartDatePicker = true" ng-model="startDate" />
+            <div>
+                <date-picker ng-show="showStartDatePicker" ng-model="startDate"></date-picker>
+            </div>
+            
+            <label for="endDate">End</label>
+            <input class="form-control" id="endDate" type="datetime" ng-focus="showEndDatePicker = true" ng-model="endDate" />
+            <div>
+                <date-picker ng-show="showEndDatePicker" ng-model="endDate"></date-picker>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="mynumber">Range for the serverside validation is 1 - 100</label>
-            <input id="mynumber" type="number" ng-model="number" name="number" />
+            <input class="form-control" id="mynumber" type="number" ng-model="number" name="number" />
         </div>
         <div>
             <input type="submit" id="submit" value="Submit" ng-disabled="!myForm.$valid" />
         </div>
-        <div class="alert-success" ng-show="result">
+
+        <div class="alert-success" ng-show="result" style="display:none">
             <div>
                 <span class="text-success">{{result}}</span>
             </div>
         </div>
-        <div class="alert-danger" ng-show="showErrors">
+        <div class="alert-danger" ng-show="showErrors" style="display:none">
             <div>
                 <span>There were some serverside validation errors</span>
             </div>
