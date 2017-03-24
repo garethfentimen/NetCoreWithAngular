@@ -7,7 +7,8 @@ var gulp = require('gulp'),
 gulp.task('default', ['dep','app','css']);
 
 gulp.task('app', ['lint'], function () {
-    return gulp.src(['app/*.js'])
+    return gulp.src(['app/directives/*.js',
+         'app/*.js'])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('wwwroot/js'));
 });
@@ -20,8 +21,11 @@ gulp.task('lint', function () {
 });
 
 gulp.task('dep', function() {
-    return gulp.src(['node_modules/angular/angular.js',
-        'node_modules/angular-date-picker/angular-date-picker.js'])
+    return gulp.src([
+        'node_modules/angular/angular.js',
+        'node_modules/angular-date-picker/angular-date-picker.js',
+        'node_modules/angular-messages/angular-messages.js'
+        ])
         .pipe(concat('dep.js'))
         .pipe(gulp.dest('wwwroot/js'));
 });

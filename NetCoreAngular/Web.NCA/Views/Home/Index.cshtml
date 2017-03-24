@@ -5,41 +5,76 @@
 <div ng-app="myApp" class="container">
 
     <form name="myForm" ng-controller="myController" ng-submit="submit()" novalidate>
+
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                This is a form which demonstrates angular built-in/custom validation
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="mytext">Type more than 15 characters for a server error</label>
             <input class="form-control" id="mytext" type="text" ng-model="text" required ng-minlength="2" ng-maxlength="20" name="text" />
-            <div ng-show="myForm.text.$error.required && !myForm.text.$pristine" class="alert-danger">Text is required.</div>
-            <div ng-show="myForm.text.$error.minlength" class="alert-warning">Text is too short.</div>
-            <div ng-show="myForm.text.$error.maxlength" class="alert-warning">Text is too long</div>
-        </div>
-        <div class="form-group">
-            <label for="startDate">Start</label>
-            
-            <input class="form-control" id="startDate" type="datetime" ng-focus="showStartDatePicker = true" ng-model="startDate" />
-            <div>
-                <date-picker ng-show="showStartDatePicker" ng-model="startDate"></date-picker>
+            <div ng-messages="myForm.text.$error" ng-show="!myForm.text.$pristine">
+                <div ng-message="required" class="alert-danger">Text is required.</div>
+                <div ng-message="minlength" class="alert-danger">Text is too short.</div>
+                <div ng-message="maxlength" class="alert-danger">Text is too long</div>
             </div>
-            
-            <label for="endDate">End</label>
-            <input class="form-control" id="endDate" type="datetime" ng-focus="showEndDatePicker = true" ng-model="endDate" />
-            <div>
-                <date-picker ng-show="showEndDatePicker" ng-model="endDate"></date-picker>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="mynumber">Range for the serverside validation is 1 - 100</label>
-            <input class="form-control" id="mynumber" type="number" ng-model="number" name="number" />
-        </div>
-        <div>
-            <input type="submit" id="submit" value="Submit" ng-disabled="!myForm.$valid" />
         </div>
 
-        <div class="alert-success" ng-show="result" style="display:none">
+        <div class="form-group">
+            <div>
+                <label for="fromDate">From date</label>
+                <input class="form-control" name="fromDate" type="text" ng-focus="onFromDateFocus()" ng-model="fromDate" date-check is-to-date="false" />
+                <div ng-show="showFromDatePicker">
+                    <date-picker ng-model="selectedFromDate" on-date-selected="selectFromDate()" format-date="formatDate"></date-picker>
+                </div>
+                <div ng-messages="myForm.fromDate.$error">
+                    <div ng-message="dateError" class="alert-danger">From date must be in the past or be today's date</div>
+                </div>
+            </div>
+
+            <div>
+                <label for="endDate">To date</label>
+                <input class="form-control" name="toDate" type="datetime" ng-focus="onToDateFocus()" ng-model="toDate" date-check is-to-date="true">
+                <div ng-show="showToDatePicker">
+                    <date-picker ng-model="selectedToDate" on-date-selected="selectToDate()" name="selectedEndDate" format-date="formatDate"></date-picker>
+                </div>
+                <div ng-messages="myForm.toDate.$error">
+                    <div ng-message="dateError" class="alert-danger">To date must be in the future</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mynumber">Can be zero and can't be text</label>
+            <input class="form-control" type="number" name="other number" />
+        </div>
+
+        <div class="form-group">
+            <label for="mynumber">Range for the serverside validation is 1 - 100</label>
+            <input class="form-control" type="text" ng-model="number" name="number" integer is-zero/>
+            <div ng-messages="myForm.number.$error">
+                <div ng-message="integer" class="alert-danger">Must be a valid number</div>
+                <div ng-message="zerocheck" class="alert-danger">Cannot be zero</div>
+            </div>
+            @* old way to do this
+                <div ng-show="!myForm.fromDate.$pristine">
+                    <div ng-show="myForm.number.$error.integer" class="alert-warning">This is not a valid integer!</div>
+                    <div ng-show="myForm.number.$error.integer" class="alert-warning">This is not a valid integer!</div>
+                </div>*@
+        </div>
+
+        <div>
+            <input type="submit" id="submit" value="Submit" class="btn btn-default" ng-disabled="!myForm.$valid" />
+        </div>
+
+        <div class="alert-success" ng-show="result">
             <div>
                 <span class="text-success">{{result}}</span>
             </div>
         </div>
-        <div class="alert-danger" ng-show="showErrors" style="display:none">
+        <div class="alert-danger" ng-show="showErrors">
             <div>
                 <span>There were some serverside validation errors</span>
             </div>

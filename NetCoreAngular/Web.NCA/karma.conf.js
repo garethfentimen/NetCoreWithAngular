@@ -9,10 +9,10 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'PhantomJS'],
+      //'Chrome', PhantomJS
+    browsers: ['PhantomJS'],
 
     plugins: [
-            'karma-jspm',
             'karma-jasmine',
             'karma-chrome-launcher',
             'karma-phantomjs-launcher'],
@@ -26,6 +26,9 @@ module.exports = function(config) {
     files: [
         'node_modules/angular/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
+        'app/directives/*.js',
+        'app/*.js',
+        'spec/*.js'
     ],
 
 
@@ -44,7 +47,6 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress'],
-
 
     // web server port
     port: 9876,
