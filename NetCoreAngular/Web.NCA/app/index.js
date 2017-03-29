@@ -52,9 +52,6 @@
 
         $scope.number = 0;
         $scope.errors = [];
-        $scope.fromDate;
-        $scope.selectedFromDate;
-        $scope.toDate;
 
         $scope.submit = function () {
 

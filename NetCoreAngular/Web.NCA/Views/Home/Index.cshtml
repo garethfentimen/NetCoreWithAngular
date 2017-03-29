@@ -25,23 +25,23 @@
         <div class="form-group">
             <div>
                 <label for="fromDate">From date</label>
-                <input class="form-control" name="fromDate" type="text" ng-focus="onFromDateFocus()" ng-model="fromDate" date-check is-to-date="false" />
+                <input class="form-control" name="fromDate" type="text" ng-focus="onFromDateFocus()" ng-model="fromDate" date-check to-date="toDate" />
                 <div ng-show="showFromDatePicker">
                     <date-picker ng-model="selectedFromDate" on-date-selected="selectFromDate()" format-date="formatDate"></date-picker>
                 </div>
                 <div ng-messages="myForm.fromDate.$error">
-                    <div ng-message="dateError" class="alert-danger">From date must be in the past or be today's date</div>
+                    <div ng-message="dateError" class="alert-danger">Date range is invalid - from date must be before the to date</div>
                 </div>
             </div>
 
             <div>
                 <label for="endDate">To date</label>
-                <input class="form-control" name="toDate" type="datetime" ng-focus="onToDateFocus()" ng-model="toDate" date-check is-to-date="true">
+                <input class="form-control" name="toDate" type="datetime" ng-focus="onToDateFocus()" ng-model="toDate" date-check from-date="fromDate" >
                 <div ng-show="showToDatePicker">
                     <date-picker ng-model="selectedToDate" on-date-selected="selectToDate()" name="selectedEndDate" format-date="formatDate"></date-picker>
                 </div>
                 <div ng-messages="myForm.toDate.$error">
-                    <div ng-message="dateError" class="alert-danger">To date must be in the future</div>
+                    <div ng-message="dateError" class="alert-danger">Date range is invalid - to date must be after the from date</div>
                 </div>
             </div>
         </div>
@@ -58,11 +58,6 @@
                 <div ng-message="integer" class="alert-danger">Must be a valid number</div>
                 <div ng-message="zerocheck" class="alert-danger">Cannot be zero</div>
             </div>
-            @* old way to do this
-                <div ng-show="!myForm.fromDate.$pristine">
-                    <div ng-show="myForm.number.$error.integer" class="alert-warning">This is not a valid integer!</div>
-                    <div ng-show="myForm.number.$error.integer" class="alert-warning">This is not a valid integer!</div>
-                </div>*@
         </div>
 
         <div>

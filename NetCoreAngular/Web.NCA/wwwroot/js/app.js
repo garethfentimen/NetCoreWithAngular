@@ -1,6 +1,20 @@
 (function (angular) {
     'use strict';
 
+    function convertToDateFromString(value) {
+        if (!value) {
+            return null;
+        }
+
+        var splitDate = value.split("/");
+
+        var dateValueMonth = splitDate[0] - 1,
+            dateValueDay = splitDate[1],
+            dateValueYear = splitDate[2];
+
+        return new Date(dateValueYear, dateValueMonth, dateValueDay);;
+    }
+
     angular.module('date.directives', []).directive("dateCheck", function () {
         return {
             restrict: "A",
@@ -8,34 +22,47 @@
             link: function ($scope, $element, $attrs, $ctrl) {
                 $ctrl.$validators.dateError = function (modelValue, viewValue) {
 
-                    var isToDate = $scope.$eval($attrs.isToDate);
-                    //console.info("to date ?: ", isToDate);
-                    var value= $scope.$eval($attrs.name);
+                    var fromDate = $scope.$eval($attrs.fromDate),
+                        toDate = $scope.$eval($attrs.toDate);
 
+                    console.info("from date ?: ", fromDate);
+                    if (!fromDate && !toDate) {
+                        return true;
+                    }
+
+                    console.info("from date ?: ", fromDate);
+                    console.info("to date ?: ", toDate);
+
+                    var value = $scope.$eval($attrs.name);
                     if (!value) {
                         return true;
                     }
 
-                    var splitDate = value.split("/");
+                    console.info("value ?: ", value);
 
-                    if (splitDate.length === 0) {
-                        return true;
+                    var value = convertToDateFromString(value),
+                        fromDate = convertToDateFromString(fromDate);
+
+                    if (fromDate) {
+                        if (fromDate < value) {
+                            // it is valid
+                            return true;
+                        } else {
+                            // not valid
+                            return false;
+                        }
                     }
 
-                    var dateValueMonth = splitDate[0] - 1,
-                        dateValueDay = splitDate[1],
-                        dateValueYear = splitDate[2],
-                        today = new Date();
+                    var toDate = convertToDateFromString(toDate);
 
-                    //console.info("blah: ", dateValueYear, dateValueMonth, dateValueDay);
-
-                    var value = new Date(dateValueYear, dateValueMonth, dateValueDay);
-                    if (value <= today) {
-                        // it is valid
-                        return !isToDate;
-                    } else {
-                        // not valid
-                        return isToDate;
+                    if (toDate) {
+                        if (toDate > value) {
+                            // it is valid
+                            return true;
+                        } else {
+                            // not valid
+                            return false;
+                        }
                     }
                 };
             }
@@ -97,9 +124,6 @@
 
         $scope.number = 0;
         $scope.errors = [];
-        $scope.fromDate;
-        $scope.selectedFromDate;
-        $scope.toDate;
 
         $scope.submit = function () {
 
