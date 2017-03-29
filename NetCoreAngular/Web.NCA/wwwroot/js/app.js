@@ -25,20 +25,17 @@
                     var fromDate = $scope.$eval($attrs.fromDate),
                         toDate = $scope.$eval($attrs.toDate);
 
-                    console.info("from date ?: ", fromDate);
                     if (!fromDate && !toDate) {
                         return true;
                     }
 
-                    console.info("from date ?: ", fromDate);
-                    console.info("to date ?: ", toDate);
+                    //console.info("from date ?: ", fromDate);
+                    //console.info("to date ?: ", toDate);
 
                     var value = $scope.$eval($attrs.name);
                     if (!value) {
                         return true;
                     }
-
-                    console.info("value ?: ", value);
 
                     var value = convertToDateFromString(value),
                         fromDate = convertToDateFromString(fromDate);
